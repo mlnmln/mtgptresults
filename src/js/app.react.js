@@ -278,8 +278,8 @@ var Rankings = React.createClass({
     // Include anyone tied with the 100th rank
     var cutoff = sortedPlayers[99].stats[col];
     var players = _.filter(sortedPlayers, function(p) { return p.stats[col] >= cutoff; });
-
     var prev = {value: null};
+    var isSameIndex = false;
     var sortImage = <img src="/arrowicon.png" />;
     return (
       <div className="col-md-offset-2 col-md-8">
@@ -287,48 +287,48 @@ var Rankings = React.createClass({
         <div className="page-header pageHeader">
           <h1>Player Rankings</h1>
         </div>
-        <table className="table table-hover sortable standingsTable">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Player</th>
-              <th className="sortableHeader">
+        <table className="ResponsiveTable table table-hover sortable standingsTable">
+          <thead className="ResponsiveTable-head">
+            <tr className="ResponsiveTable-row">
+              <th className="ResponsiveTable-headerCell"></th>
+              <th className="ResponsiveTable-headerCell">Player</th>
+              <th className="ResponsiveTable-headerCell sortableHeader">
                 <Link to="rankings" params={{col: 'total'}}>
                   Total PTs
                 </Link>
                 {col === 'total' ? sortImage : null}
               </th>
-              <th className="sortableHeader">
+              <th className="ResponsiveTable-headerCell sortableHeader">
                 <Link to="rankings" params={{col: 't1'}}>
                   Wins
                 </Link>
                 {col === 't1' ? sortImage : null}
               </th>
-              <th className="sortableHeader">
+              <th className="ResponsiveTable-headerCell sortableHeader">
                 <Link to="rankings" params={{col: 't8'}}>
                   Top 8s
                 </Link>
                 {col === 't8' ? sortImage : null}
               </th>
-              <th className="sortableHeader">
+              <th className="ResponsiveTable-headerCell sortableHeader">
                 <Link to="rankings" params={{col: 't16'}}>
                   Top 16s
                 </Link>
                 {col === 't16' ? sortImage : null}
               </th>
-              <th className="sortableHeader">
+              <th className="ResponsiveTable-headerCell sortableHeader">
                 <Link to="rankings" params={{col: 'points'}}>
                   Pro Points
                 </Link>
                 {col === 'points' ? sortImage : null}
               </th>
-              <th className="sortableHeader">
+              <th className="ResponsiveTable-headerCell sortableHeader">
                 <Link to="rankings" params={{col: 'money'}}>
                   Money
                 </Link>
                 {col === 'money' ? sortImage : null}
               </th>
-              <th className="sortableHeader">
+              <th className="ResponsiveTable-headerCell sortableHeader">
                 <Link to="rankings" params={{col: 't8pct'}}>
                   T8/Total
                 </Link>
@@ -336,32 +336,49 @@ var Rankings = React.createClass({
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="ResponsiveTable-body">
             {_.map(players, function(player, index) {
               if (prev.value !== player.stats[col]) {
                 prev.value = player.stats[col];
                 prev.index = index;
                 ++index;
+                isSameIndex = false;
               } else {
-                index = null;
+                isSameIndex = true;
               }
               return (
-                <tr key={player.id}>
-                  <td>{index}</td>
-                  <td>
+                <tr className="ResponsiveTable-row" key={player.id}>
+                  <td className="ResponsiveTable-dataCell" data-label="Rank">
+                    <span className={isSameIndex ? 'hidden-sm hidden-md hidden-lg' : ''}>
+                      {index}
+                    </span>
+                  </td>
+                  <td className="ResponsiveTable-dataCell" data-label="Player">
                     <Link to="player" params={{id: player.id}}>
                       {player.name}
                     </Link>
                   </td>
-                  <td>{player.stats.total}</td>
-                  <td>{player.stats.t1}</td>
-                  <td>{player.stats.t8}</td>
-                  <td>{player.stats.t16}</td>
-                  <td>{player.stats.points}</td>
-                  <td>
+                  <td className="ResponsiveTable-dataCell" data-label="Total PTs">
+                    {player.stats.total}
+                  </td>
+                  <td className="ResponsiveTable-dataCell" data-label="Wins">
+                    {player.stats.t1}
+                  </td>
+                  <td className="ResponsiveTable-dataCell" data-label="Top 8s">
+                    {player.stats.t8}
+                  </td>
+                  <td className="ResponsiveTable-dataCell" data-label="Top 16s">
+                    {player.stats.t16}
+                  </td>
+                  <td className="ResponsiveTable-dataCell" data-label="Pro Points">
+                    {player.stats.points}
+                  </td>
+                  <td className="ResponsiveTable-dataCell" data-label="Money">
                     {accounting.formatMoney(player.stats.money, '$', 0)}
                   </td>
-                  <td>{player.stats.t8pct + '%'}</td>
+                  <td className="ResponsiveTable-dataCell" data-label="T8/Total">
+                    {player.stats.t8pct + '%'}
+                  </td>
                 </tr>
               );
             })}
