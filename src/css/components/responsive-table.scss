@@ -23,7 +23,7 @@
 
   .ResponsiveTable-dataCell {
     position: relative;
-    padding-left: calc(25% + 8px) !important; /* 2. */
+    padding-left: calc(50% + 8px) !important; /* 2. */
   }
 
   .ResponsiveTable-dataCell::before {
