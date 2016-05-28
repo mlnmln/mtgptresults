@@ -1,0 +1,64 @@
+/*
+ * Displays a table with left aligned headers at mobile viewport.
+ *
+ * SEE: https://css-tricks.com/examples/ResponsiveTables/responsive.php
+ *
+ * [1] Force block level rending of all table elements
+ * [2] Magic number: Bootstrap table padding
+ * [3] Injects label as pseudo element from data-attribute.
+ */
+
+@media (max-width: 768px) {
+  .ResponsiveTable,
+  .ResponsiveTable-head,
+  .ResponsiveTable-body,
+  .ResponsiveTable-row,
+  .ResponsiveTable-headerCell,
+  .ResponsiveTable-dataCell {
+    display: block; /* 1. */
+  }
+
+  .ResponsiveTable-headerCell {
+  }
+
+  .ResponsiveTable-dataCell {
+    position: relative;
+    padding-left: calc(25% + 8px) !important; /* 2. */
+  }
+
+  .ResponsiveTable-dataCell::before {
+    position: absolute;
+    left: 8px;
+    content: attr(data-label); /* 3. */
+    font-weight: bold;
+  }
+
+  /*
+   * … Specifics to the rankings view. We do have sortable table headers here.
+   * Therefore, we don't want hide them.
+   *
+   * [1] Hide Empty rank and non-interactive player cell.
+   *
+   * TODO: Abstract, remove from component scoped styles.
+   */
+
+  .ResponsiveTable-head {
+    margin-bottom: 30px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ddd;
+  }
+
+  .ResponsiveTable-headerCell {
+    border-bottom-width: 1px !important;
+  }
+
+  .ResponsiveTable-headerCell:nth-child(1),
+  .ResponsiveTable-headerCell:nth-child(2) {
+    display: none; /* 1. */
+  }
+
+  .ResponsiveTable-headerCell:last-child {
+    border-bottom-width: 0 !important;
+  }
+}
