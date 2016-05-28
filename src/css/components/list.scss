@@ -1,0 +1,18 @@
+.List {
+  margin-left: 0;
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.List-index {
+  margin-right: 5px;
+}
+
+.List-item--big {
+  font-size: 1.5em;
+  margin-left: -5px;
+}
+
+.List-item--big .List-link {
+  margin-left: -4px;
+}
